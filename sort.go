@@ -75,7 +75,6 @@ func max(integers... int) int {
 func radixSort(array *[]int) {
 	var max_int int = max(*array...)
 	var max_log int = int(math.Log10(float64(max_int)))
-	fmt.Printf("Max log for array is %d\n", max_log)
 
 	var buckets [][]int = make([][]int, 10)
 	var result []int = make([]int, len(*array))
@@ -88,7 +87,6 @@ func radixSort(array *[]int) {
 		}
 		result = []int{}
 		for j := 0; j < len(buckets); j++ {
-			fmt.Printf("Values for buckets[%d] is %v\n", j, buckets[j])
 			result = append(result, buckets[j]...)
 			buckets[j] = []int{} // Reset
 		}
