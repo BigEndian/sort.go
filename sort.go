@@ -8,7 +8,7 @@ import (
 	"os"
 	"math"
 )
-
+// Sort functions are listed in ascending order of badass-ness
 func bubbleSort(array []int) {
 	var temp int
 	for i := 1; i < len(array); i++ {
@@ -20,6 +20,29 @@ func bubbleSort(array []int) {
 	}
 }
 
+func insertionSort(array []int) {
+	var temp int
+
+	for i := 1; i < len(array); i++ {
+		for j := i; j >= 1; j-- {
+			if array[j] /*current*/ < array[j-1] {
+				temp = array[j]
+				array[j] = array[j-1]
+				array[j-1] = temp
+			} else {
+				break
+			}
+		}
+	}
+}
+func selectionSort(array []int) {
+	var max_val, max_index int
+	for i := 0; i < len(array); i++ {
+		max_val, max_index = max(array[i:]...)
+		array[max_index] = array[i]
+		array[i] = max_val
+	}
+}
 func mergeSort(array []int) []int {
 	splitPoint := len(array)/2
 
@@ -63,17 +86,19 @@ func combine(left []int, right []int) []int {
 
 	return output
 }
-func max(integers... int) int {
-	var max int = integers[0]
-	for _, i := range integers[1:] {
-		if (i > max) {
-			max = i
+func max(integers... int) (int, int) {
+	var max_value int = integers[0]
+	var max_index int = 0
+	for index, val := range integers[1:] {
+		if (val > max_value) {
+			max_value = val
+			max_index = index
 		}
 	}
-	return max
+	return max_value, max_index
 }
 func radixSort(array *[]int) {
-	var max_int int = max(*array...)
+	var max_int, _ int = max(*array...)
 	var max_log int = int(math.Log10(float64(max_int)))
 
 	var buckets [][]int = make([][]int, 10)
@@ -139,7 +164,7 @@ func genRandomArray(random *rand.Rand, options GenerationOptions) []int {
 
 
 var length *int = flag.Int("size", 10000, "the length of the array to sort")
-var sort_type *string = flag.String("method", "bubble", "the sort method to use [bubble, merge, radix]")
+var sort_type *string = flag.String("method", "bubble", "the sort method to use [bubble, merge, radix, insertion, selection]")
 var reverse *bool = flag.Bool("reverse", false, "Instead of an array of pseudorandom integers, populate the array by numbers in a reverse-sequential order")
 var rand_max *int = flag.Int("limit", 0, "The highest value for an integer to be generated pseudorandomly and placed into the array. If 0, it'll be INT_MAX")
 var print_initial *bool = flag.Bool("printinit", false, "Print the initial values of the array before sorting the array")
@@ -171,6 +196,10 @@ func main() {
 			fmt.Printf("%d: %d %d %d\n", i, isolateDigit(i, 2), isolateDigit(i, 1), isolateDigit(i, 0))
 		}*/
 		radixSort(&array)
+	case "insertion":
+		insertionSort(array)
+	case "selection":
+		selectionSort(array)
 	default:
 		fmt.Fprintf(os.Stderr, "Invalid sorting method: %s\n", *sort_type)
 		os.Exit(1)
