@@ -97,11 +97,11 @@ func max(integers... int) (int, int) {
 			max_index = index
 		}
 	}
-	return max_value, max_index
+	return max_index, max_value
 }
 func radixSort(array []int) {
 
-	var max_int, _ int = max(array...)
+	var _, max_int int = max(array...)
 	var max_log int = int(math.Log10(float64(max_int)))
 
 	var buckets [][]int = make([][]int, 10)
@@ -196,9 +196,6 @@ func main() {
 	case "merge":
 		array = mergeSort(array)
 	case "radix":
-		/*for i := 0; i < 100; i++ {
-			fmt.Printf("%d: %d %d %d\n", i, isolateDigit(i, 2), isolateDigit(i, 1), isolateDigit(i, 0))
-		}*/
 		radixSort(array)
 	case "insertion":
 		insertionSort(array)
