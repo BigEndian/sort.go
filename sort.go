@@ -38,9 +38,9 @@ func insertionSort(array []int) {
 }
 
 func selectionSort(array []int) {
-	var max_val, max_index int
+	var max_index, max_val int
 	for i := 0; i < len(array); i++ {
-		max_val, max_index = max(array[i:]...)
+		max_index, max_val = max(array[i:]...)
 		array[max_index] = array[i]
 		array[i] = max_val
 	}
