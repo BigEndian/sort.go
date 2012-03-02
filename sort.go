@@ -8,6 +8,7 @@ import (
 	"os"
 	"math"
 )
+
 // Sort functions are listed in ascending order of badass-ness
 func bubbleSort(array []int) {
 	var temp int
@@ -35,6 +36,7 @@ func insertionSort(array []int) {
 		}
 	}
 }
+
 func selectionSort(array []int) {
 	var max_val, max_index int
 	for i := 0; i < len(array); i++ {
@@ -97,13 +99,14 @@ func max(integers... int) (int, int) {
 	}
 	return max_value, max_index
 }
-func radixSort(array *[]int) {
-	var max_int, _ int = max(*array...)
+func radixSort(array []int) {
+
+	var max_int, _ int = max(array...)
 	var max_log int = int(math.Log10(float64(max_int)))
 
 	var buckets [][]int = make([][]int, 10)
-	var result []int = make([]int, len(*array))
-	copy(result, *array)
+	var result []int = make([]int, len(array))
+	copy(result, array)
 
 	for digit_index := 0; digit_index <= max_log; digit_index++ {
 		for i := 0; i < len(result); i++ {
@@ -116,7 +119,8 @@ func radixSort(array *[]int) {
 			buckets[j] = []int{} // Reset
 		}
 	}
-	copy(*array, result)
+
+	copy(array, result)
 }
 
 func isolateDigit(number int, digit int) int { // 100, 0 is 0, 100, 1 is 0, 100, 2 is 1 the floored log of 100..999 is 2
@@ -195,7 +199,7 @@ func main() {
 		/*for i := 0; i < 100; i++ {
 			fmt.Printf("%d: %d %d %d\n", i, isolateDigit(i, 2), isolateDigit(i, 1), isolateDigit(i, 0))
 		}*/
-		radixSort(&array)
+		radixSort(array)
 	case "insertion":
 		insertionSort(array)
 	case "selection":
